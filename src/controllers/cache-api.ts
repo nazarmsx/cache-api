@@ -40,4 +40,10 @@ router.delete('/api/v1/cache/:key', async function (req: Request, res: Response,
     res.json({status:"OK",message:"Cache entry successfully deleted."})
 });
 
+router.delete('/api/v1/cache-clear', async function (req: Request, res: Response, next: NextFunction) {
+    const key=req.params.key;
+    let deletionResults=await cacheService.clearCache();
+    res.json({status:"OK",message:"Cache cleared."})
+});
+
 export {router};

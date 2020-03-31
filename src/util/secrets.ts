@@ -15,6 +15,7 @@ const prod = ENVIRONMENT === "production"; // Anything else is treated as 'dev'
 
 export const MONGODB_URI = prod ? process.env["MONGODB_URI"] : process.env["MONGODB_URI_LOCAL"];
 export const CACHE_TTL: number = prod ? parseInt(process.env["CACHE_TTL"]) : parseInt(process.env["CACHE_TTL"]);
+export const MAX_CACHE_ENTRIES: number = prod ? parseInt(process.env["MAX_CACHE_ENTRIES"]) : parseInt(process.env["MAX_CACHE_ENTRIES"]);
 
 if (!MONGODB_URI) {
     if (prod) {
