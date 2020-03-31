@@ -38,12 +38,10 @@ export class CacheService {
         }
     }
     public async updateByKey(key: string, value: any): Promise<CacheEntryDocument> {
-        let res = await CacheEntry.findOneAndUpdate({ key },{value, expiryDate: getExpiryDate(this.ttl)});
-        return  res;
+        return CacheEntry.findOneAndUpdate({key}, {value, expiryDate: getExpiryDate(this.ttl)},{new:true});
     }
     public async removeByKey(key: string): Promise<CacheEntryDocument> {
-        let res = await CacheEntry.findOneAndDelete({ key });
-        return  res;
+        return CacheEntry.findOneAndDelete({ key });
     }
 
     public async findAllKeys(): Promise<string[]> {
@@ -60,7 +58,7 @@ export class CacheService {
     }
 
     public async truncateCache(): Promise<any> {
-        let count = await CacheEntry.count({});
+        let count = await CacheEntry.countDocuments({});
         if (count > MAX_CACHE_ENTRIES) {
             let toDeleteItems = await CacheEntry.find({}).sort({expiryDate: 1}).limit(count - MAX_CACHE_ENTRIES).lean();
             await CacheEntry.deleteMany({_id: {$in: toDeleteItems.map((e: CacheEntryDocument) => e._id)}})
