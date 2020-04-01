@@ -5,7 +5,6 @@ import {check, sanitize, validationResult} from "express-validator";
 import {container} from "tsyringe";
 import {CacheService} from "../services"
 const cacheService = container.resolve(CacheService);
-
 import { Response, Request, NextFunction } from "express";
 
 router.get('/api/v1/cache/:key', async function (req: Request, res: Response, next: NextFunction) {

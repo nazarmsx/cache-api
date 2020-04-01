@@ -60,7 +60,7 @@ export class CacheService {
     public async truncateCache(): Promise<any> {
         let count = await CacheEntry.countDocuments({});
         if (count > MAX_CACHE_ENTRIES) {
-            let toDeleteItems = await CacheEntry.find({}).sort({expiryDate: 1}).limit(count - MAX_CACHE_ENTRIES).lean();
+            let toDeleteItems = await CacheEntry.find({}).sort({expiryDate: 1}).limit(count - MAX_CACHE_ENTRIES).lean(); // remove cache entries with smallest TTL
             await CacheEntry.deleteMany({_id: {$in: toDeleteItems.map((e: CacheEntryDocument) => e._id)}})
         }
     }
